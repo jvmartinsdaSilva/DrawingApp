@@ -1,13 +1,21 @@
-const {Server}  = require("socket.io")
+const PORT = 5000
 
-const io = new Server({
+const express = require('express');
+const { createServer } = require('node:http');
+const { Server } = require('socket.io');
+
+const app = express();
+const server = createServer(app);
+const io = new Server(server, {
     cors: "http://localhost:5173/"
-})
+});
 
-io.on("conection", socket => {
-        socket.on("canvasImage", data => {
-            socket.broadcast.emit("canvasImage", data)
-        })
-})
 
-io.listen(5000)
+io.on('connection', (socket) => {
+  console.log('a user connected');
+});
+
+
+server.listen(PORT, () => {
+  console.log('server running at http://localhost:' + PORT);
+});
