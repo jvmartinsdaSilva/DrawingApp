@@ -1,6 +1,11 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+body {
+  background: #ff9966;
+  background: -webkit-linear-gradient(to right, #ff5e62, #ff9966);
+  background: linear-gradient(to right, #ff5e62, #ff9966);
+}
