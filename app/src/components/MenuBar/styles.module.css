@@ -1,4 +1,4 @@
-.menu{
+.menu {
     margin: 1em 0 0 0;
     width: 100%;
     display: flex;
@@ -6,4 +6,15 @@
     justify-content: space-between;
     padding: .5em;
     background: inherit;
+}
+
+.sizeContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: calc(30%);
+    font-size: 25px;
+    color: #222;
+    font-weight: bolder;
+    font-family: monospace;
 }

@@ -3,8 +3,8 @@ import { useRef, useEffect, useState } from "react"
 import io from "socket.io-client"
 
 interface drawProps {
-    color: String,
-    size: Number
+    color?: String,
+    size?: Number
 }
 // const [socket, setSocket] = useState(null);
 
@@ -13,7 +13,6 @@ const Board = ({ color, size }: drawProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
-        console.log(size, color)
         let isDrawing = false;
         let lastX = 0;
         let lastY = 0;

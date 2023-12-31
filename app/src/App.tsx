@@ -4,8 +4,8 @@ import { Container } from "./components/Container"
 import { MenuBar } from "./components/MenuBar"
 
 interface drawProps {
-  color: String,
-  size: Number
+  color?: String,
+  size?: Number
 }
 
 const App = () => {
