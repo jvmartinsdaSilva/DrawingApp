@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react"
 import io from "socket.io-client"
+import Drawing from "./Drawing"
 
 interface drawProps {
     color?: String,
@@ -28,6 +29,8 @@ const Board = ({ color, size }: drawProps) => {
         })
         }
 
+        const DrawingMenu = new Drawing(color, size, canvasRef.current)
+
         let isDrawing = false
         let lastX = 0
         let lastY = 0
@@ -43,7 +46,7 @@ const Board = ({ color, size }: drawProps) => {
             const canvasImg = canvasRef.current
             const dataURL  = canvasImg?.toDataURL()
             const canvas = canvasRef.current
-            const ctx = canvas.getContext('2d')
+            const ctx = canvas?.getContext('2d')
 
 
             if (ctx) {
@@ -54,17 +57,17 @@ const Board = ({ color, size }: drawProps) => {
             }
 
             [lastX, lastY] = [e.offsetX, e.offsetY]
-            if(socket){
-                socket.emit("canvasImage", dataURL)
-            }
+            // if(socket){
+            //     socket.emit("canvasImage", dataURL)
+            // }
 
         };
 
         const endDrawing = () => isDrawing = false
 
 
-        const canvas: HTMLCanvasElement = canvasRef.current
-        const ctx = canvasRef.current?.getContext('2d')
+        const canvas: HTMLCanvasElement = canvasRef?.current
+        const ctx: any = canvas?.getContext('2d')
 
         if (ctx) {
             ctx.strokeStyle = color
@@ -75,16 +78,16 @@ const Board = ({ color, size }: drawProps) => {
 
         }
 
-        canvas.addEventListener('mousedown', startDrawing)
-        canvas.addEventListener('mousemove', draw)
-        canvas.addEventListener('mouseup', endDrawing)
-        canvas.addEventListener('mouseout', endDrawing)
+        canvas.addEventListener('mousedown', e => DrawingMenu.start(e))
+        canvas.addEventListener('mousemove', e => DrawingMenu.draw(e))
+        canvas.addEventListener('mouseup', () => DrawingMenu.end())
+        canvas.addEventListener('mouseout', () => DrawingMenu.end())
 
         return () => {
-            canvas.removeEventListener('mousedown', startDrawing)
-            canvas.removeEventListener('mousemove', draw)
-            canvas.removeEventListener('mouseup', endDrawing)
-            canvas.removeEventListener('mouseout', endDrawing)
+            canvas.removeEventListener('mousedown', e => DrawingMenu.start(e))
+            canvas.removeEventListener('mousemove', e => DrawingMenu.draw(e))
+            canvas.removeEventListener('mouseup', () => DrawingMenu.end())
+            canvas.removeEventListener('mouseout', () => DrawingMenu.end())
         }
     }, [color, size, socket])
 
