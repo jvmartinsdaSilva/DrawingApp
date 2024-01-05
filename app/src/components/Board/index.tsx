@@ -18,6 +18,9 @@ const Board = ({ color, size }: drawProps) => {
     }, [])
 
     useEffect(() => {
+        const canvas: HTMLCanvasElement = canvasRef?.current
+        const ctx: any = canvas?.getContext('2d')
+
 
         if(socket){
             socket.on("canvasImage", (data: any) => {
@@ -31,52 +34,30 @@ const Board = ({ color, size }: drawProps) => {
 
         const DrawingMenu = new Drawing(color, size, canvasRef.current)
 
-        let isDrawing = false
-        let lastX = 0
-        let lastY = 0
 
-        const startDrawing = (e: { offsetX: number, offsetY: number }) => {
-            isDrawing = true;
-            [lastX, lastY] = [e.offsetX, e.offsetY];
-        };
+        // const draw = (e: { offsetX: number, offsetY: number }) => {
+        //     if (!isDrawing) return
 
-        const draw = (e: { offsetX: number, offsetY: number }) => {
-            if (!isDrawing) return
-
-            const canvasImg = canvasRef.current
-            const dataURL  = canvasImg?.toDataURL()
-            const canvas = canvasRef.current
-            const ctx = canvas?.getContext('2d')
+        //     const canvasImg = canvasRef.current
+        //     const dataURL  = canvasImg?.toDataURL()
+        //     const canvas = canvasRef.current
+        //     const ctx = canvas?.getContext('2d')
 
 
-            if (ctx) {
-                ctx.beginPath();
-                ctx.moveTo(lastX, lastY)
-                ctx.lineTo(e.offsetX, e.offsetY)
-                ctx.stroke();
-            }
+        //     if (ctx) {
+        //         ctx.beginPath();
+        //         ctx.moveTo(lastX, lastY)
+        //         ctx.lineTo(e.offsetX, e.offsetY)
+        //         ctx.stroke();
+        //     }
 
-            [lastX, lastY] = [e.offsetX, e.offsetY]
-            // if(socket){
-            //     socket.emit("canvasImage", dataURL)
-            // }
+        //     [lastX, lastY] = [e.offsetX, e.offsetY]
+        //     if(socket){
+        //         socket.emit("canvasImage", dataURL)
+        //     }
 
-        };
+        // };
 
-        const endDrawing = () => isDrawing = false
-
-
-        const canvas: HTMLCanvasElement = canvasRef?.current
-        const ctx: any = canvas?.getContext('2d')
-
-        if (ctx) {
-            ctx.strokeStyle = color
-            ctx.lineWidth = size
-
-            ctx.lineCap = 'round'
-            ctx.lineJoin = 'round'
-
-        }
 
         canvas.addEventListener('mousedown', e => DrawingMenu.start(e))
         canvas.addEventListener('mousemove', e => DrawingMenu.draw(e))

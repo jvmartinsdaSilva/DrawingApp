@@ -1,19 +1,23 @@
-import { useRef } from "react"
-
 class Drawing  {
     size?: Number
     color?: String
-    canvas: any 
+    canvas?: any 
     ctx: any
     isDrawing: boolean = false
     lastPX: number = 0
     lastPY: number = 0
 
-    constructor(color?: String, size?: Number, canvas: any){
+    constructor(color?: String, size?: Number, canvas?: any){
         this.size = size
         this.color = color
         this.canvas = canvas
         this.ctx = canvas.getContext("2d")
+
+        this.ctx.strokeStyle = color
+        this.ctx.lineWidth = size
+
+        this.ctx.lineCap = 'round'
+        this.ctx.lineJoin = 'round'
     }
 
     start = (e: { offsetX: number, offsetY: number }) => {
@@ -36,7 +40,6 @@ class Drawing  {
     }
 
     end = () => this.isDrawing = false
-
 }
 
 export default Drawing
