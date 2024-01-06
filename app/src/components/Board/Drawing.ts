@@ -1,17 +1,22 @@
+
+
 class Drawing  {
     size?: Number
     color?: String
     canvas?: any 
+    socket: any
+
     ctx: any
     isDrawing: boolean = false
     lastPX: number = 0
     lastPY: number = 0
 
-    constructor(color?: String, size?: Number, canvas?: any){
+    constructor(color?: String, size?: Number, canvas?: any, socket?: any){
         this.size = size
         this.color = color
         this.canvas = canvas
         this.ctx = canvas.getContext("2d")
+        this.socket = socket
 
         this.ctx.strokeStyle = color
         this.ctx.lineWidth = size
@@ -33,11 +38,14 @@ class Drawing  {
             this.ctx.moveTo(this.lastPX, this.lastPY)
             this.ctx.lineTo(e.offsetX, e.offsetY)
             this.ctx.stroke();
+
+            const dataURL  = this.canvas?.toDataURL()
+            if(this.socket) {this.socket.emit("canvasImage", dataURL)}
         }
 
         [this.lastPX, this.lastPY] = [e.offsetX, e.offsetY]
-
     }
+
 
     end = () => this.isDrawing = false
 }

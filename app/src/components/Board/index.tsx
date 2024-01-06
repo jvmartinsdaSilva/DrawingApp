@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react"
+import { useRef, useEffect, useState } from "react"
 import io from "socket.io-client"
 import Drawing from "./Drawing"
 
@@ -11,6 +11,7 @@ interface drawProps {
 const Board = ({ color, size }: drawProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [socket, setSocket] = useState<any>()
+
 
     useEffect(() => {
         const newSocket = io("http://localhost:5000")
@@ -26,37 +27,14 @@ const Board = ({ color, size }: drawProps) => {
             socket.on("canvasImage", (data: any) => {
             const image = new Image()
             image.src = data
-            const canvas = canvasRef.current
-            const ctx = canvas?.getContext("2d")
             image.onload = () => ctx?.drawImage(image, 0 , 0)
+            console.log(data)
         })
         }
 
-        const DrawingMenu = new Drawing(color, size, canvasRef.current)
+        const DrawingMenu = new Drawing(color, size, canvasRef.current, socket)
 
-
-        // const draw = (e: { offsetX: number, offsetY: number }) => {
-        //     if (!isDrawing) return
-
-        //     const canvasImg = canvasRef.current
-        //     const dataURL  = canvasImg?.toDataURL()
-        //     const canvas = canvasRef.current
-        //     const ctx = canvas?.getContext('2d')
-
-
-        //     if (ctx) {
-        //         ctx.beginPath();
-        //         ctx.moveTo(lastX, lastY)
-        //         ctx.lineTo(e.offsetX, e.offsetY)
-        //         ctx.stroke();
-        //     }
-
-        //     [lastX, lastY] = [e.offsetX, e.offsetY]
-        //     if(socket){
-        //         socket.emit("canvasImage", dataURL)
-        //     }
-
-        // };
+        const canvasImg = canvasRef.current
 
 
         canvas.addEventListener('mousedown', e => DrawingMenu.start(e))

@@ -15,8 +15,7 @@ const App = () => {
     <Container>
       <Board size={drawOptions.size} color={drawOptions.color}/>
       <MenuBar setNewValues={(e: drawProps) => 
-        setDrawOptions({color: e.color || drawOptions.color, size: e.size || drawOptions.size})}
-        />
+        setDrawOptions({color: e.color || drawOptions.color, size: e.size || drawOptions.size})}/>
     </Container>
   )
 }
