@@ -30,7 +30,10 @@ const Board = () => {
         })
         }
 
-        // if(clean) return DrawingMenu
+        if(clean)  {
+            DrawingMenu.clearBoard()
+            BoardCtx.toggleClean(false)
+        }
 
         canvas.addEventListener('mousedown', e => DrawingMenu.start(e))
         canvas.addEventListener('mousemove', e => DrawingMenu.draw(e))

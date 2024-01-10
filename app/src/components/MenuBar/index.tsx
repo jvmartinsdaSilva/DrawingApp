@@ -6,14 +6,9 @@ import { BoardContext } from "../Board/BoardContext"
 type setNewValuesInfos = ({ color, size }: { color?: string, size?: number }) => void
 type showSize = (size: number) => void
 
-interface menu {
-    setNewValues: setNewValuesInfos
-}
-
 export const MenuBar = () => {
     const BoardCtx = useContext(BoardContext)
-
-    const [showSize, setShowsize] = useState<Number>(50)
+    const [showSize, setShowsize] = useState<Number>(BoardCtx.drawInfos.size)
 
     const defineSize: showSize = (size: number) => {
         BoardCtx.toggleSize(size)
@@ -29,7 +24,7 @@ export const MenuBar = () => {
                 />
                 <span className={styles.txt}>{String(showSize)}</span>
             </span>
-            <ButtonClean />
+            <ButtonClean onClick={() => BoardCtx.toggleClean(true)}/>
             <input type="color" onChange={e => BoardCtx.toggleColor(e.target.value)} />
         </menu>
     )

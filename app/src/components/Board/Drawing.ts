@@ -46,8 +46,13 @@ class Drawing  {
         [this.lastPX, this.lastPY] = [e.offsetX, e.offsetY]
     }
 
-
     end = () => this.isDrawing = false
+
+    clearBoard = () => {
+        console.log("teste")
+        this.ctx.fillStyle = "white"
+        this.ctx.fillRect(0, 0, 600, 400)
+    }
 }
 
 export default Drawing
