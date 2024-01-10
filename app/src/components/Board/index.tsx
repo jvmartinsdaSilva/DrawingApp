@@ -3,26 +3,26 @@ import io from "socket.io-client"
 import Drawing from "./Drawing"
 
 interface drawProps {
-    color?: String,
-    size?: Number
+    color?: string,
+    size?: number
 }
-
 
 const Board = ({ color, size }: drawProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [socket, setSocket] = useState<any>()
-
-
+    
+    
     useEffect(() => {
         const newSocket = io("http://localhost:5000")
         setSocket(newSocket)
     }, [])
-
+    
     useEffect(() => {
-        const canvas: HTMLCanvasElement = canvasRef?.current
+        const canvas: HTMLCanvasElement = canvasRef.current!
         const ctx: any = canvas?.getContext('2d')
-
-
+        
+        
+        const DrawingMenu = new Drawing(color, size, canvasRef.current, socket)
         if(socket){
             socket.on("canvasImage", (data: any) => {
             const image = new Image()
@@ -31,10 +31,6 @@ const Board = ({ color, size }: drawProps) => {
             console.log(data)
         })
         }
-
-        const DrawingMenu = new Drawing(color, size, canvasRef.current, socket)
-
-        const canvasImg = canvasRef.current
 
 
         canvas.addEventListener('mousedown', e => DrawingMenu.start(e))

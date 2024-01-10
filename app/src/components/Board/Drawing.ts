@@ -1,8 +1,8 @@
 
 
 class Drawing  {
-    size?: Number
-    color?: String
+    size?: number
+    color?: string
     canvas?: any 
     socket: any
 
@@ -11,7 +11,7 @@ class Drawing  {
     lastPX: number = 0
     lastPY: number = 0
 
-    constructor(color?: String, size?: Number, canvas?: any, socket?: any){
+    constructor(color?: string, size?: number, canvas?: any, socket?: any){
         this.size = size
         this.color = color
         this.canvas = canvas

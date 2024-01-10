@@ -2,8 +2,8 @@ import { useState } from "react"
 import styles from "./styles.module.css"
 import { ButtonClean } from "../Buttons"
 
-type setNewValuesInfos = ({ color, size }: { color?: String, size?: Number }) => void
-type showSize = (size: Number) => void
+type setNewValuesInfos = ({ color, size }: { color?: string, size?: number }) => void
+type showSize = (size: number) => void
 
 interface menu {
     setNewValues: setNewValuesInfos
@@ -12,7 +12,7 @@ interface menu {
 export const MenuBar = ({ setNewValues }: menu) => {
     const [showSize, setShowsize] = useState<Number>(50)
 
-    const defineSize: showSize = (size: Number) => {
+    const defineSize: showSize = (size: number) => {
         setNewValues({ size })
         setShowsize(size)
     }
