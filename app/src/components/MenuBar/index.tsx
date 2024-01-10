@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import styles from "./styles.module.css"
 import { ButtonClean } from "../Buttons"
+import { BoardContext } from "../Board/BoardContext"
 
 type setNewValuesInfos = ({ color, size }: { color?: string, size?: number }) => void
 type showSize = (size: number) => void
@@ -9,11 +10,13 @@ interface menu {
     setNewValues: setNewValuesInfos
 }
 
-export const MenuBar = ({ setNewValues }: menu) => {
+export const MenuBar = () => {
+    const BoardCtx = useContext(BoardContext)
+
     const [showSize, setShowsize] = useState<Number>(50)
 
     const defineSize: showSize = (size: number) => {
-        setNewValues({ size })
+        BoardCtx.toggleSize(size)
         setShowsize(size)
     }
 
@@ -27,7 +30,7 @@ export const MenuBar = ({ setNewValues }: menu) => {
                 <span className={styles.txt}>{String(showSize)}</span>
             </span>
             <ButtonClean />
-            <input type="color" onChange={e => setNewValues({ color: e.target.value })} />
+            <input type="color" onChange={e => BoardCtx.toggleColor(e.target.value)} />
         </menu>
     )
 }

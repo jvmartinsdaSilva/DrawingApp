@@ -1,16 +1,16 @@
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect, useState, useContext } from "react"
 import io from "socket.io-client"
 import Drawing from "./Drawing"
+import { BoardContext } from "./BoardContext"
 
-interface drawProps {
-    color?: string,
-    size?: number
-}
-
-const Board = ({ color, size }: drawProps) => {
+const Board = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
+    const BoardCtx = useContext(BoardContext)
     const [socket, setSocket] = useState<any>()
-    
+
+    const color: string = BoardCtx.drawInfos.color
+    const size: number = BoardCtx.drawInfos.size
+    const clean: boolean = BoardCtx.drawInfos.clean
     
     useEffect(() => {
         const newSocket = io("http://localhost:5000")
@@ -19,19 +19,18 @@ const Board = ({ color, size }: drawProps) => {
     
     useEffect(() => {
         const canvas: HTMLCanvasElement = canvasRef.current!
-        const ctx: any = canvas?.getContext('2d')
-        
-        
+        const ctx: any = canvas?.getContext('2d')      
         const DrawingMenu = new Drawing(color, size, canvasRef.current, socket)
+
         if(socket){
             socket.on("canvasImage", (data: any) => {
             const image = new Image()
             image.src = data
             image.onload = () => ctx?.drawImage(image, 0 , 0)
-            console.log(data)
         })
         }
 
+        // if(clean) return DrawingMenu
 
         canvas.addEventListener('mousedown', e => DrawingMenu.start(e))
         canvas.addEventListener('mousemove', e => DrawingMenu.draw(e))
@@ -44,7 +43,7 @@ const Board = ({ color, size }: drawProps) => {
             canvas.removeEventListener('mouseup', () => DrawingMenu.end())
             canvas.removeEventListener('mouseout', () => DrawingMenu.end())
         }
-    }, [color, size, socket])
+    }, [color, size, clean, socket])
 
     return (
         <canvas
