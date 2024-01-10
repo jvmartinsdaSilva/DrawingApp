@@ -1,5 +1,6 @@
 import { useState } from "react"
 import styles from "./styles.module.css"
+import { ButtonClean } from "../Buttons"
 
 type setNewValuesInfos = ({ color, size }: { color?: String, size?: Number }) => void
 type showSize = (size: Number) => void
@@ -25,6 +26,7 @@ export const MenuBar = ({ setNewValues }: menu) => {
                 />
                 <span className={styles.txt}>{String(showSize)}</span>
             </span>
+            <ButtonClean />
             <input type="color" onChange={e => setNewValues({ color: e.target.value })} />
         </menu>
     )
